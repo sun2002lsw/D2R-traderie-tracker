@@ -39,7 +39,7 @@ class Sender:
         data = {
             'mode': mode,
             'ladder': ladder,
-            'curTime': datetime.now(timezone.utc).strftime('%Y-%m-%d %H:00:00'),
+            'curTime': datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S'),
             'itemValues': roundItemValues
         }
 

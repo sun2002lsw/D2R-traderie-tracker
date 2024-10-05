@@ -20,9 +20,15 @@ def writeFileLog(fileLog):
 
 # python main.py 실행시
 if __name__ == "__main__":
+    print(f"{datetime.now().replace(microsecond=0)} start")
     try:
         app = App()
         app.Run()
+        app.Exit()
+        print(f"{datetime.now().replace(microsecond=0)} finish")
     except Exception as e:
         log = str(e)
         writeFileLog(log)
+        print(f"{datetime.now().replace(microsecond=0)} finish with error")
+
+    print()

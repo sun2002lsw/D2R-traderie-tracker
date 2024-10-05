@@ -62,3 +62,6 @@ class App:
             self._sender.sendItemInfos(isHardcore, isLadder, itemValues)
         except Exception as e:
             self._sender.reportError(e)
+
+    def Exit(self):
+        self._crawler.Exit()

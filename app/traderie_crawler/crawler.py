@@ -163,6 +163,7 @@ class Crawler:
         # 몇개를 묶어서 팔았는가
         title = lines[0]
         tradeCntStr = title[:title.index(' X ')]
+        tradeCntStr = tradeCntStr.replace(",", "")  # 천 단위가 넘는 미친 거래가 있을 수도 있다
         tradeCnt = int(tradeCntStr)
 
         # 어떤 아이템들에 팔았는가
@@ -208,7 +209,9 @@ class Crawler:
             for tradeItem in tradeItemPackage:
                 if ' X ' in tradeItem:
                     itemInfo = tradeItem.split(' X ')
-                    itemCnt = int(itemInfo[0])
+                    itemCntStr = itemInfo[0]
+                    itemCntStr = itemCntStr.replace(",", "")  # 천 단위가 넘는 미친 거래가 있을 수도 있다
+                    itemCnt = int(itemCntStr)
                     itemName = itemInfo[1]
                 else:
                     itemCnt = 1
@@ -225,3 +228,6 @@ class Crawler:
     def _checkSellingTimeElapsed24Hours(self, sellingTimeStr):
         findWords = ['초', '분', '시간', 'sec', 'min', 'hour']
         return not any(word in sellingTimeStr for word in findWords)
+
+    def Exit(self):
+        self._driver.quit()

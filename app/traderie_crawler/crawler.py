@@ -42,8 +42,8 @@ class Crawler:
         d2rImageSelector = 'div.col-xs-12:nth-child(5) > a:nth-child(1) > div:nth-child(2)'
 
         # wait for login page
-        self._driver.get(url)
         try:
+            self._driver.get(url)
             self._driver.waitAllByCssSelector(usernameSelector, passwordSelector, loginBtnSelector)
         except Exception as e:
             raise ConnectionError(f'login connection timeout')
@@ -80,11 +80,15 @@ class Crawler:
         loadMoreSelector = '.see-all-btn-bar > button:nth-child(1)'
 
         # wait for trade history page
-        self._driver.get(url)
-        try:
-            self._driver.waitAnyByCssSelector(offerRowSelector, noListingSelector)
-        except Exception as e:
-            return  # no listings 상태로 처리
+        MAX_RETRY_CNT = 3
+        for i in range(MAX_RETRY_CNT):
+            try:
+                self._driver.get(url)
+                self._driver.waitAnyByCssSelector(offerRowSelector, noListingSelector)
+                break
+            except Exception:
+                if i == MAX_RETRY_CNT - 1:
+                    return  # no listings 상태로 처리
 
         # check no trade history
         try:
@@ -140,14 +144,18 @@ class Crawler:
     def _crawlItemCode(self, itemName):
         encodedItemName = urllib.parse.quote(itemName)
         searchUrl = f'https://traderie.com/diablo2resurrected/products?search={encodedItemName}'
-        self._driver.get(searchUrl)
+        itemSelector = '.item-container-img-icon'
 
         # 아이템 아이콘의 링크 url을 보고 아이템 코드 알아내기
-        itemSelector = '.item-container-img-icon'
-        try:
-            self._driver.waitAllByCssSelector(itemSelector)
-        except Exception as e:
-            raise ConnectionError(f'crawl item code timeout. itemName: {itemName}')
+        MAX_RETRY_CNT = 3
+        for i in range(MAX_RETRY_CNT):
+            try:
+                self._driver.get(searchUrl)
+                self._driver.waitAllByCssSelector(itemSelector)
+                break
+            except Exception as e:
+                if i == MAX_RETRY_CNT - 1:
+                    raise ConnectionError(f'crawl item code timeout. itemName: {itemName}')
 
         itemIcon = self._driver.findElementByCssSelector(itemSelector)
         a_tag = itemIcon.find_element(By.TAG_NAME, 'a')

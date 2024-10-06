@@ -36,10 +36,7 @@ class ChromeDriver:
 
     # 단순히 해당 페이지 접속
     def get(self, url):
-        try:
-            self._driver.get(url)
-        except Exception as e:
-            pass
+        self._driver.get(url)
 
     # selectors에 대해 모두 로딩 될 때까지 대기
     def waitAllByCssSelector(self, *selectors):

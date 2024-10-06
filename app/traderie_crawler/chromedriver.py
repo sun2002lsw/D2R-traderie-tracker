@@ -10,7 +10,7 @@ class ChromeDriver:
         self._options = self._getChromeOptions()
         self._exePath = self._getDriverExecutablePath()
         self._driver = uc.Chrome(options=self._options, driver_executable_path=self._exePath)
-        self._driver.set_page_load_timeout(120)
+        self._driver.set_page_load_timeout(300)
 
     # 최대한 컴퓨팅 자원을 아끼기 위한 옵션 설정
     def _getChromeOptions(self):
@@ -44,13 +44,13 @@ class ChromeDriver:
     # selectors에 대해 모두 로딩 될 때까지 대기
     def waitAllByCssSelector(self, *selectors):
         for selector in selectors:
-            WebDriverWait(self._driver, 150).until(
+            WebDriverWait(self._driver, 300).until(
                 EC.presence_of_element_located((By.CSS_SELECTOR, selector))
             )
 
     # selectors에 대해 하나라도 로딩 될 때까지 대기
     def waitAnyByCssSelector(self, *selectors):
-        WebDriverWait(self._driver, 150).until(
+        WebDriverWait(self._driver, 300).until(
             EC.any_of(*[
                 EC.presence_of_element_located((By.CSS_SELECTOR, selector)) for selector in selectors
             ])

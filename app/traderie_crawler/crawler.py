@@ -46,7 +46,7 @@ class Crawler:
         try:
             self._driver.waitAllByCssSelector(usernameSelector, passwordSelector, loginBtnSelector)
         except Exception as e:
-            raise ConnectionError(f'login connection timeout: {str(e)}')
+            raise ConnectionError(f'login connection timeout')
 
         # process login
         username = self._driver.findElementByCssSelector(usernameSelector)
@@ -62,7 +62,7 @@ class Crawler:
         try:
             self._driver.waitAllByCssSelector(d2rImageSelector)
         except Exception as e:
-            raise ConnectionError(f'login success timeout: {str(e)}')
+            raise ConnectionError(f'login success timeout')
 
     # 지난 24시간 동안의 거래 내역을 모두 수집
     def crawl24HoursTradeHistorys(self, isHardcore, isLadder):
@@ -84,7 +84,7 @@ class Crawler:
         try:
             self._driver.waitAnyByCssSelector(offerRowSelector, noListingSelector)
         except Exception as e:
-            log = f'itemName: {itemName}, isHardcore: {isHardcore}, isLadder: {isLadder}, error: {str(e)}'
+            log = f'itemName: {itemName}, isHardcore: {isHardcore}, isLadder: {isLadder}'
             raise ConnectionError('trade list timeout. ' + log)
 
         # check no trade history
@@ -148,7 +148,7 @@ class Crawler:
         try:
             self._driver.waitAllByCssSelector(itemSelector)
         except Exception as e:
-            raise ConnectionError(f'crawl item code timeout. itemName: {itemName}, error: {str(e)}')
+            raise ConnectionError(f'crawl item code timeout. itemName: {itemName}')
 
         itemIcon = self._driver.findElementByCssSelector(itemSelector)
         a_tag = itemIcon.find_element(By.TAG_NAME, 'a')

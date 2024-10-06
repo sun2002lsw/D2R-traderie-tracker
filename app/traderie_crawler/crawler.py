@@ -84,8 +84,7 @@ class Crawler:
         try:
             self._driver.waitAnyByCssSelector(offerRowSelector, noListingSelector)
         except Exception as e:
-            log = f'itemName: {itemName}, isHardcore: {isHardcore}, isLadder: {isLadder}'
-            raise ConnectionError('trade list timeout. ' + log)
+            return  # no listings 상태로 처리
 
         # check no trade history
         try:

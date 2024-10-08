@@ -21,8 +21,8 @@ class Sender:
         if len(response) == 0:
             raise ConnectionError(f'sqs response is empty')
 
-    def reportError(self, error):
-        self._send(str(error))
+    def sendMsg(self, msg):
+        self._send(str(msg))
 
     def sendItemInfos(self, isHardcore, isLadder, itemValues):
         mode = "Hardcore" if isHardcore else "Softcore"

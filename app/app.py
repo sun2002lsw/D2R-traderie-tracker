@@ -52,6 +52,8 @@ class App:
         self._run(False, False)  # 소코 스탠
         # 하코 스탠은 거래 내역이 너무 없어서, 페이지 로딩이 안 됨
 
+        self._sender.sendMsg('end of process')
+
     # 특정 모드/래더에 대해 작업 진행
     # 정상 완료시 json 메시지를 sqs로 전송
     # 에러 발생시 일반 메시지를 sqs로 전송
@@ -61,7 +63,7 @@ class App:
             itemValues = self._appraiser.appraise(tradeHistorys)
             self._sender.sendItemInfos(isHardcore, isLadder, itemValues)
         except Exception as e:
-            self._sender.reportError(e)
+            self._sender.sendMsg(e)
 
     def Exit(self):
         self._crawler.Exit()

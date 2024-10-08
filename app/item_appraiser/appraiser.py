@@ -19,17 +19,26 @@ class Appraiser:
                 if len(tradeItemPackages) != 1:
                     continue  # OR 묶음이 있는 거래
 
-                # 가끔씩 아이템을 동일 아이템에 파는 이상한 거래가 있다
-                # 그런 것도 없애주자
+                # 가끔씩 아이템을 같은 아이템에 파는 이상한 거래가 있다
+                # 또는 동일한 아이템을 여러 줄에 나눠서 올리는 거래도 있다
+                # 그런 것들도 없애주자
                 tradeItemPackage = tradeItemPackages[0]
+                tradeItemNames = {}
                 invalidTrade = False
+
                 for tradeItem in tradeItemPackage:
                     tradeItemName = tradeItem[1]
                     if tradeItemName == itemName:
                         invalidTrade = True
                         break
+                    if tradeItemName in tradeItemNames:
+                        invalidTrade = True
+                        break
+
+                    tradeItemNames[tradeItemName] = True
+
                 if invalidTrade:
-                    continue  # 동일 아이템 거래
+                    continue
 
                 # 구매 물품 구성이 깔끔한 거래
                 tradeCnt = trade['tradeCnt']
@@ -77,7 +86,8 @@ class Appraiser:
                     unknownValueCnt += 0 if tradeItemName in self._itemValues else 1
 
                 if unknownValueCnt == 0:
-                    raise ValueError('모든 아이템의 가치를 아는 거래 항목이 있을 수 없음')
+                    log = f'itemName: {itemName}, tradeItemPackage: {tradeItemPackage}'
+                    raise ValueError(f'모든 아이템의 가치를 아는 거래 항목이 있을 수 없음: {log}')
                 elif unknownValueCnt == 1:
                     calculateTradeHistorys[itemName].append(trade)
                 else:

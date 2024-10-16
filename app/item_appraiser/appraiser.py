@@ -137,7 +137,7 @@ class Appraiser:
                     targetItemValue = targetItemTotalValue / targetItemCnt
 
                     # 말도 안 되게 손해보는 거래. 허위 매물로 걸러내자
-                    if targetItemValue < 0:
+                    if targetItemValue <= 0:
                         continue
 
                     self._addItemValueQueue(targetItemName, targetItemValue)

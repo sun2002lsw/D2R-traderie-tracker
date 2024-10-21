@@ -173,9 +173,13 @@ class Appraiser:
 
         # 아이템 가치 내역의 상위/하위 10%는 허위 매물로 보고 삭제하자
         invalidTradeCnt = round(valueQueueLen * 0.1)
+        if invalidTradeCnt == 0 and valueQueueLen > 2:
+            invalidTradeCnt = 1  # 가능하면 1개씩이라도 자르기
+        
         beginIdx = invalidTradeCnt
         endIdx = valueQueueLen - invalidTradeCnt
 
+        # 큐의 양쪽을 잘라냄
         valueQueue.sort()
         valueQueue = valueQueue[beginIdx:endIdx]
         valueQueueLen = len(valueQueue)

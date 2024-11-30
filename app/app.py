@@ -48,8 +48,8 @@ class App:
     # D2R 트래더리 추적기 실행
     def Run(self):
         self._run(False, True)  # 소코 래더
-        self._run(True, True)  # 하코 래더
         self._run(False, False)  # 소코 스탠
+        # self._run(True, True)  # 하코 래더
         # 하코 스탠은 거래 내역이 너무 없어서, 페이지 로딩이 안 됨
 
         self._sender.sendMsg('end of process')

@@ -54,6 +54,11 @@ class ChromeDriver:
         )
 
     # 제곧내
+    def waitClassName(self, className):
+        WebDriverWait(self._driver, 60).until(
+            EC.presence_of_element_located((By.CLASS_NAME, className))
+        )
+
     def findElementByCssSelector(self, selector):
         return self._driver.find_element(By.CSS_SELECTOR, selector)
 

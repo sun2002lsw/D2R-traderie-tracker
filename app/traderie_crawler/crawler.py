@@ -86,6 +86,7 @@ class Crawler:
             try:
                 self._driver.get(url)
                 self._driver.waitAnyByCssSelector(offerRowSelector, noListingSelector)
+                self._driver.waitClassName(offerRowClassName)
                 break
             except Exception:
                 if i == MAX_RETRY_CNT - 1:

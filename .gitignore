@@ -1,3 +1,6 @@
+# 내가 지정한 로그 폴더
+log/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

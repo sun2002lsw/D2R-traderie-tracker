@@ -75,9 +75,10 @@ class Crawler:
 
     def _crawl24HoursTradeHistory(self, itemName, isHardcore, isLadder):
         url = self._getTradeHistoryUrl(itemName, isHardcore, isLadder)
-        offerRowSelector = 'div.sc-izQBue.fFOtdy'
-        noListingSelector = '.no-listings'
-        loadMoreSelector = '.see-all-btn-bar > button:nth-child(1)'
+        offerRowSelector = '#root > div.sc-dovdUy.Mnnyl > div.sc-fwwElh.bYcShz > div.product > div.container > div > div:nth-child(2) > div.product-listings > div:nth-child(3) > div > div:nth-child(2) > div.offer-table'
+        offerRowClassName = 'offer-row'
+        noListingSelector = '#root > div.sc-dovdUy.Mnnyl > div.sc-fwwElh.bYcShz > div.product > div.container > div > div:nth-child(2) > div.product-listings > div.sc-eoVZPG.fvvxTQ > div > div > div.no-listings'
+        loadMoreSelector = '#root > div.sc-dovdUy.Mnnyl > div.sc-fwwElh.bYcShz > div.product > div.container > div > div:nth-child(2) > div.product-listings > div:nth-child(3) > div > div:nth-child(2) > div.see-all-btn-bar > button'
 
         # wait for trade history page
         MAX_RETRY_CNT = 3
@@ -99,7 +100,7 @@ class Crawler:
 
         # load more for 24 hours trade history
         while True:
-            tradeElements = self._driver.findElementsByCssSelector(offerRowSelector)
+            tradeElements = self._driver.findElementsByClassName(offerRowClassName)
             lastTradeElement = tradeElements[-1]
             _, _, elapsed24Hours = self._parseOneTrade(lastTradeElement.text)
             if elapsed24Hours:
@@ -115,7 +116,7 @@ class Crawler:
         # parse all trade history
         tradeHistory = []
 
-        tradeElements = self._driver.findElementsByCssSelector(offerRowSelector)
+        tradeElements = self._driver.findElementsByClassName(offerRowClassName)
         for tradeElement in tradeElements:
             tradeCnt, tradeItemPackages, elapsed24Hours = self._parseOneTrade(tradeElement.text)
             if elapsed24Hours:

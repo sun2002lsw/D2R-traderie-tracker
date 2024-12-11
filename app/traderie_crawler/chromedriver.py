@@ -60,6 +60,9 @@ class ChromeDriver:
     def findElementsByCssSelector(self, selector):
         return self._driver.find_elements(By.CSS_SELECTOR, selector)
 
+    def findElementsByClassName(self, className):
+        return self._driver.find_elements(By.CLASS_NAME, className)
+
     # 크롬 드라이버 종료 (굳이 할 필요가 있을까?)
     def quit(self):
         self._driver.quit()
